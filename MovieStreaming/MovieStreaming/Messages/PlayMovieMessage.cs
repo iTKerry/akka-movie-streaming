@@ -1,4 +1,4 @@
 ﻿namespace MovieStreaming.Messages
 {
-    public record PlayMovieMessage(int UserId, string UserName);
+    public record PlayMovieMessage(int UserId, string Title);
 }

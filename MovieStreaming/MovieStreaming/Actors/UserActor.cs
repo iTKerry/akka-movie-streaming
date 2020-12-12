@@ -15,12 +15,6 @@ namespace MovieStreaming.Actors
             Receive<StopMovieMessage>(HandleStopMovieMessage);
         }
 
-        private void HandleStopMovieMessage(StopMovieMessage message)
-        {
-            _currentlyWatching = null;
-            Console.WriteLine($"[{nameof(UserActor)}:{nameof(HandleStopMovieMessage)}]");
-        }
-
         private void HandlePlayMovieMessage(PlayMovieMessage message)
         {
             if (string.IsNullOrWhiteSpace(_currentlyWatching))
@@ -35,12 +29,34 @@ namespace MovieStreaming.Actors
             }
         }
 
+        private void HandleStopMovieMessage(StopMovieMessage message)
+        {
+            if (string.IsNullOrWhiteSpace(_currentlyWatching))
+            {
+                Console.WriteLine(
+                    $"[{nameof(UserActor)}:{nameof(HandlePlayMovieMessage)}] " +
+                    "Error: Cannot stop if nothing is playing.");
+            }
+            else
+            {
+                StopPlayingMovie();
+            }
+        }
+
         private void StartPlayingMovie(string message)
         {
-            _currentlyWatching = message;
             Console.WriteLine(
                 $"[{nameof(UserActor)}:{nameof(HandlePlayMovieMessage)}] " +
-                $"User is currently watching {_currentlyWatching}.");
+                $"User is currently watching {message}.");
+            _currentlyWatching = message;
+        }
+
+        private void StopPlayingMovie()
+        {
+            Console.WriteLine(
+                $"[{nameof(UserActor)}:{nameof(HandleStopMovieMessage)}] " +
+                $"User has stopped watching {_currentlyWatching}");
+            _currentlyWatching = null;
         }
 
         protected override void PreStart()
