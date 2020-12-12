@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Akka.Actor;
 
 namespace MovieStreaming
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static ActorSystem _movieStreamingActorSystem;
+
+        private static async Task Main()
         {
-            Console.WriteLine("Hello World!");
+            _movieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
+
+            Console.Read();
+
+            await _movieStreamingActorSystem.Terminate();
         }
     }
 }
