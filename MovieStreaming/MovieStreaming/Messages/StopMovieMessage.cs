@@ -1,4 +1,4 @@
 ﻿namespace MovieStreaming.Messages
 {
-    public record StopMovieMessage();
+    public record StopMovieMessage(int UserId);
 }
